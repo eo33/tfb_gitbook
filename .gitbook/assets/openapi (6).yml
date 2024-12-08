@@ -1,0 +1,76 @@
+openapi: 3.0.0
+info:
+  description: This file contains the OpenAPI specifications for The Furniture Bros API
+  title: TheFurnitureBrosOpenAPI
+  version: 1.0.0
+servers:
+  - url: http://thefurniturebros.com
+    description: Production server
+  - url: http://localhost:5000
+    description: Local server
+paths:
+  /auth/register:
+    post:
+      summary: Register an Account
+      description: This endpoint allows you to register a user. Once registered, it will return an API key.
+      tags:
+        - Auth
+      requestBody:
+        description: |
+          An object containing the parameters to create and register an account.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - email
+                - password
+              properties:
+                name:
+                  type: string
+                  description: |
+                    The name of the user.
+                email:
+                  type: string
+                  format: email
+                  description: |
+                    The email address of the user.
+                password:
+                  type: string
+                  description: |
+                    The password for the account.
+                admin:
+                  type: boolean
+                  default: false
+                  description: |
+                    Specifies whether the user has administrative privileges.
+            example:
+              name: "john doe"
+              email: "john_doe12@gmail.com"
+              password: "123456"
+      responses:
+        200:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: |
+                      eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7
+                      ImlkIjoiNjc0NmFiMzMxZGM1NWNhNzUwNzI0OWEzIiwiYWRtaW
+                      4iOmZhbHNlfSwiaWF0IjoxNzMyNjg0NTk2LCJleHAiOjE3MzI3MjA1OTZ9.FiaBGlR1
+                      fkzXQKgxLshzVL2lcajQNXEUTH09N-csr98
+                    description: |
+                      The API key used to authenticate the account.
+        400:
+          description: See message decription.
+        500:
+          description: see message description.
+      externalDocs:
+        description: Learn more about JSON Web Token (JWT).
+        url: https://auth0.com/docs/secure/tokens/json-web-tokens
